@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trung Tâm Kiểm Định Độ Đáng Yêu</title>
+  <meta name="description" content="Chúc mừng ngày 8/3 — Hệ thống kiểm định đặc biệt dành riêng cho Vân Khanh">
+  <meta property="og:title" content="Trung Tâm Kiểm Định Độ Đáng Yêu">
+  <meta property="og:description" content="Một bất ngờ nhỏ nhân ngày 8/3">
+  <meta property="og:image" content="images/ao-dai-outdoor.jpg">
+  <meta property="og:type" content="website">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600;700&family=JetBrains+Mono:wght@400&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Cursor Spotlight Overlay -->
+  <div id="cursor-spotlight"></div>
+
+  <!-- Particle Trail Container -->
+  <div id="particle-container"></div>
+
+  <!-- Heart Code Rain (Thắp sáng anh, sưởi ấm em inspired) -->
+  <canvas id="heart-code-rain"></canvas>
+
+  <!-- ============ MÀN 0: INTRO / LOADING ============ -->
+  <section class="screen active" id="screen-0">
+    <div class="scanline-overlay"></div>
+    <div class="intro-content">
+      <div class="intro-text" id="scramble-text">ĐANG KHỞI ĐỘNG HỆ THỐNG...</div>
+      <div class="intro-sub">Mã đối tượng: VK-20082003</div>
+      <div class="loading-dots">
+        <span>.</span><span>.</span><span>.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MÀN 1: LANDING + QUIZ ============ -->
+  <section class="screen" id="screen-1">
+    <div class="bg-image-layer" id="landing-bg">
+      <img src="images/mirror-camera.jpg" alt="Background" loading="lazy">
+    </div>
+
+    <!-- Petal Rain -->
+    <div class="petal-container" id="petal-container"></div>
+
+    <!-- Landing Content -->
+    <div class="landing-content" id="landing-content">
+      <!-- 3D Heart -->
+      <div class="heart-3d-container" id="heart-3d">
+        <div class="heart-3d">
+          <div class="heart-shape"></div>
+          <div class="heart-glow"></div>
+        </div>
+      </div>
+
+      <h1 class="typewriter-title" id="typewriter-title"></h1>
+
+      <div class="cta-buttons">
+        <button class="btn-primary magnetic-el" id="btn-accept">
+          <span>Nhận quà 8/3 nào, Khanh ơi!</span>
+        </button>
+        <button class="btn-secondary" id="btn-reject">
+          <span>Không nhận đâu</span>
+        </button>
+      </div>
+      <div class="reject-msg" id="reject-msg" style="display:none;">
+        Khanh ơi, không trốn được đâu nha 💕
+      </div>
+    </div>
+
+    <!-- Quiz Content -->
+    <div class="quiz-content" id="quiz-content" style="display:none;">
+      <div class="quiz-card glass-card" id="quiz-card">
+        <div class="quiz-inner">
+          <div class="quiz-question" id="quiz-question"></div>
+          <div class="quiz-options" id="quiz-options"></div>
+          <div class="quiz-feedback" id="quiz-feedback" style="display:none;"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MÀN 2: SCANNER + PHOTO SPOTLIGHT ============ -->
+  <section class="screen" id="screen-2">
+    <div class="scanner-bg"></div>
+    <div class="scanner-layout">
+      <!-- Progress Ring -->
+      <div class="progress-section">
+        <div class="progress-ring-container">
+          <svg class="progress-ring" viewBox="0 0 200 200">
+            <circle class="progress-ring-bg" cx="100" cy="100" r="90"/>
+            <circle class="progress-ring-fill" id="progress-fill" cx="100" cy="100" r="90"/>
+          </svg>
+          <div class="progress-text" id="progress-text">0%</div>
+        </div>
+        <div class="progress-label">Powered by: Túi bảo bối Doraemon v4.0</div>
+      </div>
+
+      <!-- Photo Spotlight -->
+      <div class="spotlight-photo-container" id="spotlight-container">
+        <img src="images/selfie-cute.jpg" alt="Đối tượng kiểm định" class="spotlight-photo" loading="lazy">
+        <div class="spotlight-overlay" id="spotlight-overlay"></div>
+      </div>
+
+      <!-- Terminal Log -->
+      <div class="terminal-box glass-card" id="terminal-box">
+        <div class="terminal-header">
+          <span class="terminal-dot red"></span>
+          <span class="terminal-dot yellow"></span>
+          <span class="terminal-dot green"></span>
+          <span class="terminal-title">analysis.exe</span>
+        </div>
+        <div class="terminal-body" id="terminal-body"></div>
+      </div>
+    </div>
+
+    <!-- Glitch flash -->
+    <div class="glitch-flash" id="glitch-flash"></div>
+    <div class="transition-text" id="transition-text" style="display:none;">KẾT QUẢ ĐÃ SẴN SÀNG</div>
+  </section>
+
+  <!-- ============ MÀN 3: KẾT QUẢ + HERO PHOTO ============ -->
+  <section class="screen" id="screen-3">
+    <div class="result-bg"></div>
+    <div class="result-layout">
+      <!-- Stats -->
+      <div class="stats-grid">
+        <div class="stat-card glass-card magnetic-el" data-target="9999" data-label="Độ đáng yêu" data-suffix="/100">
+          <div class="stat-label">Độ đáng yêu</div>
+          <div class="stat-value"><span class="counter" data-target="9999">0</span>/100</div>
+          <div class="stat-bar"><div class="stat-bar-fill overflow"></div></div>
+        </div>
+        <div class="stat-card glass-card magnetic-el">
+          <div class="stat-label">Mức độ nguy hiểm (cho tim người khác)</div>
+          <div class="stat-value stat-danger">CỰC CAO</div>
+          <div class="stat-badge blink">⚠ CẢNH BÁO</div>
+        </div>
+        <div class="stat-card glass-card magnetic-el">
+          <div class="stat-label">Chỉ số công chúa</div>
+          <div class="stat-value stat-princess">VƯỢT NGƯỠNG</div>
+          <div class="stat-bar"><div class="stat-bar-fill explode"></div></div>
+        </div>
+        <div class="stat-card glass-card magnetic-el" data-target="100">
+          <div class="stat-label">Khả năng khiến người khác rung động</div>
+          <div class="stat-value"><span class="counter" data-target="100">0</span>%</div>
+          <div class="stat-gauge">
+            <svg viewBox="0 0 100 50">
+              <path class="gauge-bg" d="M 10 50 A 40 40 0 0 1 90 50"/>
+              <path class="gauge-fill" d="M 10 50 A 40 40 0 0 1 90 50"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hero Photo -->
+      <div class="hero-photo-section">
+        <div class="hero-photo-wrapper tilt-el" id="hero-photo">
+          <img src="images/ao-dai-outdoor.jpg" alt="Phiên bản giới hạn" loading="lazy">
+          <div class="hero-shine"></div>
+          <div class="hero-label">HỒ SƠ #VK-20082003 — HỒ NGỌC VÂN KHANH — PHIÊN BẢN GIỚI HẠN</div>
+        </div>
+      </div>
+
+      <!-- Verdict Card -->
+      <div class="verdict-card tilt-el glass-card" id="verdict-card">
+        <div class="verdict-border"></div>
+        <div class="verdict-inner">
+          <h2>KẾT LUẬN HỆ THỐNG</h2>
+          <div class="verdict-line">Đối tượng: <strong>Hồ Ngọc Vân Khanh</strong></div>
+          <div class="verdict-line">Mã hồ sơ: <strong>VK-20082003</strong></div>
+          <div class="verdict-line">Phân loại: <strong>Phiên bản giới hạn 8/3</strong></div>
+          <div class="verdict-divider"></div>
+          <div class="verdict-quote">
+            <p>Thám tử Conan xác nhận:</p>
+            <p class="quote-text">"Sự thật chỉ có một — Vân Khanh đã vượt chuẩn nữ chính!"</p>
+          </div>
+          <div class="verdict-quote">
+            <p>Doraemon kiến nghị:</p>
+            <p class="quote-text">Cần được cưng chiều ít nhất 24 giờ nữa</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary magnetic-el btn-next" id="btn-to-gallery">
+        <span>Xem thêm bằng chứng →</span>
+      </button>
+    </div>
+
+    <!-- Confetti Container -->
+    <div class="confetti-container" id="confetti-container"></div>
+  </section>
+
+  <!-- ============ MÀN 4: PHOTO GALLERY ============ -->
+  <section class="screen" id="screen-4">
+    <div class="gallery-bg"></div>
+    <div class="gallery-layout">
+      <h2 class="gallery-title">Hồ sơ bằng chứng</h2>
+      <div class="polaroid-gallery">
+        <div class="polaroid-wrapper" style="--rot: -4deg; animation-delay: 0.1s;">
+          <div class="polaroid-card tilt-el magnetic-el">
+            <img src="images/red-dress-park.jpg" alt="Bằng chứng 1" loading="lazy">
+          </div>
+        </div>
+        <div class="polaroid-wrapper" style="--rot: 3deg; animation-delay: 0.3s;">
+          <div class="polaroid-card tilt-el magnetic-el">
+            <img src="images/bunny-wonderland.jpg" alt="Bằng chứng 2" loading="lazy">
+          </div>
+        </div>
+        <div class="polaroid-wrapper" style="--rot: 2deg; animation-delay: 0.5s;">
+          <div class="polaroid-card tilt-el magnetic-el">
+            <img src="images/christmas-pose.jpg" alt="Bằng chứng 3" loading="lazy">
+          </div>
+        </div>
+        <div class="polaroid-wrapper" style="--rot: -3deg; animation-delay: 0.7s;">
+          <div class="polaroid-card tilt-el magnetic-el">
+            <img src="images/christmas-cute.jpg" alt="Bằng chứng 4" loading="lazy">
+          </div>
+        </div>
+      </div>
+
+      <button class="btn-primary magnetic-el btn-next" id="btn-to-final">
+        <span>Đã đủ bằng chứng. Tuyên án! →</span>
+      </button>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" style="display:none;">
+      <div class="lightbox-backdrop"></div>
+      <div class="lightbox-content tilt-el">
+        <button class="lightbox-close" id="lightbox-close">&times;</button>
+        <img id="lightbox-img" src="" alt="Lightbox">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MÀN 5: LỜI CHÚC CUỐI ============ -->
+  <section class="screen" id="screen-5">
+    <div class="final-bg-layer">
+      <img src="images/christmas-cute.jpg" alt="" loading="lazy">
+    </div>
+
+    <!-- Floating Hearts (parallax) -->
+    <div class="floating-hearts" id="floating-hearts"></div>
+
+    <div class="final-content">
+      <!-- SVG Heart Draw -->
+      <div class="svg-heart-container">
+        <svg class="svg-heart" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+          <path class="heart-path" d="M100 180 C60 140, 0 100, 0 60 C0 20, 40 0, 70 0 C85 0, 95 10, 100 20 C105 10, 115 0, 130 0 C160 0, 200 20, 200 60 C200 100, 140 140, 100 180Z" fill="none" stroke="#FF6B9D" stroke-width="2"/>
+          <path class="heart-fill-path" d="M100 180 C60 140, 0 100, 0 60 C0 20, 40 0, 70 0 C85 0, 95 10, 100 20 C105 10, 115 0, 130 0 C160 0, 200 20, 200 60 C200 100, 140 140, 100 180Z" fill="#FF6B9D" opacity="0"/>
+        </svg>
+      </div>
+
+      <!-- Wishes -->
+      <div class="wishes-container">
+        <p class="wish-line" data-delay="0">Chúc mừng ngày 8/3, Vân Khanh!</p>
+        <p class="wish-line" data-delay="1">Hệ thống xác nhận: em là phiên bản giới hạn,</p>
+        <p class="wish-line" data-delay="2">không có bảo bối nào của Doraemon</p>
+        <p class="wish-line" data-delay="3">tạo ra được người thứ hai giống em.</p>
+        <p class="wish-line" data-delay="4"></p>
+        <p class="wish-line" data-delay="5">Đề nghị em giữ nụ cười này suốt cả ngày</p>
+        <p class="wish-line" data-delay="6">và nhận thật nhiều yêu thương nhé.</p>
+      </div>
+
+      <!-- "Bản án 8/3" Card -->
+      <div class="sentence-card tilt-el glass-card" id="sentence-card">
+        <div class="sentence-header">
+          <div class="sentence-line-deco"></div>
+          TÒA ÁN NGÀY 8/3
+          <div class="sentence-line-deco"></div>
+        </div>
+        <div class="sentence-number">BẢN ÁN SỐ: VK-0803-2026</div>
+        <div class="sentence-body">
+          <p>Bị cáo: <strong>HỒ NGỌC VÂN KHANH</strong></p>
+          <p>Sinh ngày: <strong>20/08/2003</strong></p>
+          <p>Tội danh: <strong>Quá đáng yêu, gây rối loạn hệ thống</strong></p>
+          <div class="sentence-divider"></div>
+          <p class="sentence-label">Tòa án tuyên án bạn phải:</p>
+          <ul class="sentence-list">
+            <li>① Cười nhiều hơn hôm nay</li>
+            <li>② Nhận lời chúc này (bắt buộc, không có bảo bối nào giúp thoát được)</li>
+            <li>③ Cho phép bản thân được vui cả ngày</li>
+            <li>④ Không được buồn dưới mọi hình thức</li>
+            <li>⑤ Xem thêm ít nhất 1 tập Conan để ăn mừng</li>
+          </ul>
+          <p class="sentence-footer">Bản án có hiệu lực vĩnh viễn. Không được kháng cáo.<br>(Thám tử Conan đã xác nhận.)</p>
+        </div>
+        <div class="stamp" id="stamp">ĐÃ XÁC NHẬN</div>
+      </div>
+
+      <!-- Photo Montage Heart -->
+      <div class="montage-heart" id="montage-heart">
+        <div class="montage-title">Toàn bộ hồ sơ bằng chứng</div>
+        <div class="montage-grid">
+          <img src="images/selfie-cute.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+          <img src="images/mirror-camera.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+          <img src="images/ao-dai-outdoor.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+          <img src="images/red-dress-park.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+          <img src="images/bunny-wonderland.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+          <img src="images/christmas-pose.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+          <img src="images/christmas-cute.jpg" alt="" class="montage-img magnetic-el" loading="lazy">
+        </div>
+      </div>
+
+      <!-- Secret Message Button -->
+      <button class="btn-secret magnetic-el" id="btn-secret">
+        <span>🔒 Bấm để nhận thông điệp bí mật</span>
+      </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal-overlay" id="modal-overlay" style="display:none;">
+      <div class="modal-card tilt-el glass-card" id="modal-card">
+        <div class="modal-inner">
+          <p class="modal-greeting">Khanh ơi,</p>
+          <p>Nhưng mà chúc Vân Khanh 8/3 vui vẻ, luôn xinh đẹp và lúc nào cũng nhiều năng lượng nha.</p>
+          <p class="modal-ps">P.S. Nhớ xem thêm Conan tập mới nha~</p>
+          <p class="modal-sign">— iamphuongman</p>
+          <button class="btn-primary magnetic-el" id="btn-close-modal"><span>Đã nhận 💕</span></button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fireworks Container -->
+    <div class="fireworks-container" id="fireworks-container"></div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
