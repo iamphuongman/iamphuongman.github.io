@@ -482,6 +482,23 @@ button {
   text-align: left;
   transition: all 0.3s ease;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.quiz-option-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  background-size: cover;
+  background-position: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.quiz-option-text {
+  flex-grow: 1;
 }
 
 .quiz-option:hover:not(:disabled) {
@@ -1682,5 +1699,35 @@ button {
   .petal-container,
   .floating-hearts {
     display: none;
+  }
+}
+
+/* ========== CAT MEME EFFECT ========== */
+.cat-meme-particle {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  border-radius: 12px;
+  object-fit: cover;
+  animation: catFloatIn 3s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.4);
+  opacity: 0;
+}
+
+@keyframes catFloatIn {
+  0% {
+    transform: translate(var(--start-x), var(--start-y)) scale(0.5) rotate(var(--rot-start));
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  85% {
+    opacity: 0.9;
+    transform: translate(var(--end-x), var(--end-y)) scale(1) rotate(var(--rot-end));
+  }
+  100% {
+    transform: translate(var(--end-x), calc(var(--end-y) + 5vh)) scale(0.9) rotate(var(--rot-end));
+    opacity: 0;
   }
 }

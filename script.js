@@ -530,22 +530,22 @@
       {
         q: 'Vân Khanh ơi, bạn có biết hôm nay là ngày gì không?',
         options: [
-          { text: 'Ngày 8/3 chứ gì', feedback: 'Chính xác! Thông minh quá đi~' },
-          { text: 'Không biết', feedback: 'Gợi ý: Conan cũng biết đáp án này mà, Khanh ơi~' }
+          { text: 'Ngày 8/3 chứ gì', feedback: 'Chính xác! Thông minh quá đi~', expression: 'happy', image: 'images/cat_opt1.jpg' },
+          { text: 'Không biết', feedback: 'Gợi ý: Conan cũng biết đáp án này mà, Khanh ơi~', expression: 'shock', image: 'images/cat_opt2.jpg' }
         ]
       },
       {
         q: 'Nếu Doraemon có bảo bối "Máy đo mức xinh", kết quả của bạn sẽ là?',
         options: [
-          { text: 'Chắc cũng xinh lắm!', feedback: 'Hệ thống xác nhận: MÁY ĐO ĐÃ NỔ TUNG! 💥' },
-          { text: 'Không dám nhận', feedback: 'Hệ thống phản đối: Doraemon đã xác minh — BẠN XINH! ✨' }
+          { text: 'Chắc cũng xinh lắm!', feedback: 'Hệ thống xác nhận: MÁY ĐO ĐÃ NỔ TUNG! 💥', expression: 'shock', image: 'images/cat_opt3.jpg' },
+          { text: 'Không dám nhận', feedback: 'Hệ thống phản đối: Doraemon đã xác minh — BẠN XINH! ✨', expression: 'love', image: 'images/cat_opt4.jpg' }
         ]
       },
       {
         q: 'Bạn có đồng ý rằng người gửi link này rất đáng yêu không?',
         options: [
-          { text: 'Đồng ý', feedback: 'Đáp án chính xác. Thám tử Conan cũng approve! 🔍' },
-          { text: 'Để suy nghĩ đã', feedback: 'Hệ thống sẽ chờ... nhưng sự thật chỉ có một, và đáp án là CÓ 💕' }
+          { text: 'Đồng ý', feedback: 'Đáp án chính xác. Thám tử Conan cũng approve! 🔍', expression: 'happy', image: 'images/cat_opt5.jpg' },
+          { text: 'Để suy nghĩ đã', feedback: 'Hệ thống sẽ chờ... nhưng sự thật chỉ có một, và đáp án là CÓ 💕', expression: 'love', image: 'images/cat_opt6.jpg' }
         ]
       }
     ],
@@ -570,13 +570,19 @@
       q.options.forEach((opt, idx) => {
         const btn = document.createElement('button');
         btn.className = 'quiz-option';
-        btn.textContent = (idx === 0 ? 'A: ' : 'B: ') + opt.text;
-        btn.addEventListener('click', () => this.answer(btn, opt.feedback));
+        
+        // Tạo container chứa ảnh và text để style dễ hơn
+        btn.innerHTML = `
+          <div class="quiz-option-img" style="background-image: url('${opt.image}')"></div>
+          <div class="quiz-option-text">${(idx === 0 ? 'A: ' : 'B: ') + opt.text}</div>
+        `;
+        
+        btn.addEventListener('click', () => this.answer(btn, opt.feedback, opt.expression));
         optionsEl.appendChild(btn);
       });
     },
 
-    answer(btn, feedback) {
+    answer(btn, feedback, expression) {
       const feedbackEl = document.getElementById('quiz-feedback');
       const optionsEl = document.getElementById('quiz-options');
       if (!feedbackEl || !optionsEl) return;
@@ -589,6 +595,9 @@
       optionsEl.querySelectorAll('button').forEach((b) => {
         b.disabled = true;
       });
+
+      // Spawn Cat Meme Effect
+      this.spawnCatMemeEffect(expression);
 
       setTimeout(() => {
         this.currentQ++;
@@ -607,6 +616,77 @@
           setTimeout(() => screenManager.goTo(2), 500);
         }
       }, 2500);
+    },
+
+    spawnCatMemeEffect(expression) {
+      const container = document.createElement('div');
+      container.style.position = 'fixed';
+      container.style.top = '0';
+      container.style.left = '0';
+      container.style.width = '100vw';
+      container.style.height = '100vh';
+      container.style.pointerEvents = 'none';
+      container.style.zIndex = '1'; // Phía sau nội dung quiz (z-index: 5)
+      document.body.appendChild(container);
+
+      let imgSrc = 'images/cat_happy.gif';
+      if (expression === 'shock') imgSrc = 'images/cat_shock.gif';
+      if (expression === 'love') imgSrc = 'images/cat_love.gif';
+
+      const numParticles = 6 + Math.floor(Math.random() * 4); // 6-9 hình
+      for (let i = 0; i < numParticles; i++) {
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.className = 'cat-meme-particle';
+        
+        // Random size between 100px and 160px
+        const size = 100 + Math.random() * 60;
+        img.style.width = `${size}px`;
+        img.style.height = `${size}px`;
+
+        // Xuất hiện từ các cạnh (0: trên, 1: phải, 2: dưới, 3: trái)
+        const edge = Math.floor(Math.random() * 4);
+        let startX, startY, endX, endY;
+
+        if (edge === 0) { // Top
+          startX = Math.random() * 100;
+          startY = -20;
+          endX = startX + (Math.random() - 0.5) * 20;
+          endY = 10 + Math.random() * 20;
+        } else if (edge === 1) { // Right
+          startX = 120;
+          startY = Math.random() * 100;
+          endX = 70 + Math.random() * 20;
+          endY = startY + (Math.random() - 0.5) * 20;
+        } else if (edge === 2) { // Bottom
+          startX = Math.random() * 100;
+          startY = 120;
+          endX = startX + (Math.random() - 0.5) * 20;
+          endY = 70 + Math.random() * 20;
+        } else { // Left
+          startX = -20;
+          startY = Math.random() * 100;
+          endX = 10 + Math.random() * 20;
+          endY = startY + (Math.random() - 0.5) * 20;
+        }
+
+        img.style.setProperty('--start-x', `${startX}vw`);
+        img.style.setProperty('--start-y', `${startY}vh`);
+        img.style.setProperty('--end-x', `${endX}vw`);
+        img.style.setProperty('--end-y', `${endY}vh`);
+        img.style.setProperty('--rot-start', `${(Math.random() - 0.5) * 45}deg`);
+        img.style.setProperty('--rot-end', `${(Math.random() - 0.5) * 60}deg`);
+
+        // Random delay
+        img.style.animationDelay = `${Math.random() * 0.4}s`;
+        
+        container.appendChild(img);
+      }
+
+      // Cleanup
+      setTimeout(() => {
+        container.remove();
+      }, 4000);
     }
   };
 
